@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :signed_in_user, only: [:new, :edit, :update]
+  before_action :find_product, only: [:show, :edit]
 
   def new
     @product = Product.new
@@ -14,11 +15,9 @@ class ProductsController < ApplicationController
   end
 
   def show
-    @product = Product.find(params[:id])
   end
 
   def edit
-    @product = Product.find(params[:id])
   end
 
   def update
@@ -41,6 +40,10 @@ class ProductsController < ApplicationController
   end
 
   private
+
+    def find_product
+        @product = Product.find(params[:id])
+    end
 
     def product_params
       params.require(:product).permit(:title, :description, :image)

@@ -2,15 +2,5 @@
   .panel-heading
     h4 Sign up
   .panel-body
-    = simple_form_for(@user) do |f|
-
-      = f.error_notification
-
-      = f.input :email
-      = f.input :name
-      = f.input :password
-      = f.input :password_confirmation
-
-      .form-actions
-        = f.button :submit
+    = render 'form', user: @user
 

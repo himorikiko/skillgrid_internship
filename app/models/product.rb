@@ -1,7 +1,7 @@
 class Product < ActiveRecord::Base
   strip_attributes
 
-  validates :title, :user_id, presence: true
+  validates :title, presence: true
 
   belongs_to :user
 
