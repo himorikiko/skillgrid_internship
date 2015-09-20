@@ -32,6 +32,9 @@ gem 'slim-rails'
 # Strip trailing whitespaces
 gem "strip_attributes"
 
+# Forms made easy for Rails
+gem 'simple_form'
+
 gem 'will_paginate', '3.0.4'
 
 gem 'bootstrap-sass'
