@@ -1,5 +1,6 @@
 class Product < ActiveRecord::Base
   strip_attributes
+  paginates_per 15
 
   validates :title, presence: true
 

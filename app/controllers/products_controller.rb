@@ -8,9 +8,9 @@ class ProductsController < ApplicationController
 
   def index
     if params[:user]
-      @product = Product.by_user(params[:user]).paginate(page: params[:page], per_page: 12)
+      @product = Product.by_user(params[:user]).page params[:page]
     else
-      @product = Product.paginate(page: params[:page], per_page: 12)
+      @product = Product.page params[:page]
     end
   end
 

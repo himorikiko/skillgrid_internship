@@ -35,13 +35,9 @@ gem "strip_attributes"
 # Forms made easy for Rails
 gem 'simple_form'
 
-gem 'will_paginate', '3.0.4'
-
 gem 'bootstrap-sass'
 
 gem 'faker'
-
-gem 'bootstrap-will_paginate', '0.0.9'
 
 gem 'carrierwave'
 
@@ -49,6 +45,12 @@ gem 'mini_magick'
 
 # Protection from image bombs
 gem 'carrierwave-bombshelter'
+
+gem 'kaminari'
+
+gem 'kaminari-bootstrap3'
+
+gem 'jquery-turbolinks'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

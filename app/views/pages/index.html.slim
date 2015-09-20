@@ -1,7 +1,13 @@
 .center.jumbotron
   h1 Welcome!
 
-  h2 This is the index page
+  h2 This is the index page.
 
   -unless signed_in?
+    h2 After you sign-in/sign-up you will be able to add some products.
+
     = link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary"
+  -else
+    br
+    h2 Now you can add products
+    = link_to "New product!", new_product_path, class: "btn btn-lg btn-primary"

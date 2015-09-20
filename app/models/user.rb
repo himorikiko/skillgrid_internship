@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   strip_attributes collapse_spaces: true, only: [:name]
   strip_attributes except: [:name, :password, :password_confirmation, :password_digest]
 
+  paginates_per 12
+
   has_secure_password
 
   before_save { self.email = email.downcase }

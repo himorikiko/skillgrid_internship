@@ -2,10 +2,12 @@
   .panel-heading
     h4 All products
   .panel-body
-    = will_paginate(@product, :renderer => WillPaginate::ActionView::LinkRenderer)
+    = paginate @product, theme: 'bootstrap'
     ul
       - @product.each do |p|
         li
           = image_tag(p.image.url(:thumb).to_s) + (link_to p.title, p)
 
-    = will_paginate(@product, :renderer => WillPaginate::ActionView::LinkRenderer)
+    = paginate @product, theme: 'bootstrap'
+  .panel-footer
+    = link_to "New", new_product_path, class: "btn btn-lg btn-primary"

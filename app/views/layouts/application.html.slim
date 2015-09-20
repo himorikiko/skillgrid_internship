@@ -3,7 +3,7 @@ html
 head
   title SkillgridInternship
   = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-  = javascript_include_tag 'application', 'data-turbolinks-track' => true
+  = javascript_include_tag 'application', 'data-turbolinks-track' => false
   = csrf_meta_tags
 body
   header.navbar.navbar-fixed-top
@@ -13,19 +13,14 @@ body
           -if signed_in?
             li = link_to "Products", products_path
             li = link_to "Your products", products_path(user: current_user)
+            li = link_to "Users", users_path
         ul.nav.navbar-nav.navbar-right
           li = link_to "Home", root_path
           - if signed_in?
-            li = link_to "Users", users_path
-            li.dropdown
-              = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' }, role: 'button' do
-                = 'Account'
-                span.caret
-              ul.dropdown-menu
-                li = link_to "Profile", current_user
-                li = link_to "Settings", edit_user_path(current_user)
-                li.divider
-                li= link_to "Sign out", signout_path, method: "delete"
+            li = link_to "Profile", current_user
+            li = link_to "Settings", edit_user_path(current_user)
+            li.divider
+            li= link_to "Sign out", signout_path, method: "delete"
           - else
             li = link_to "Sign in", signin_path
     div
