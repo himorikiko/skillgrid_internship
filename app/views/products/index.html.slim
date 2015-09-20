@@ -1,0 +1,11 @@
+.panel.panel-default
+  .panel-heading
+    h4 All products
+  .panel-body
+    = will_paginate(@product, :renderer => WillPaginate::ActionView::LinkRenderer)
+    ul
+      - @product.each do |p|
+        li
+          = image_tag(p.image.url(:thumb).to_s) + (link_to p.title, p)
+
+    = will_paginate(@product, :renderer => WillPaginate::ActionView::LinkRenderer)

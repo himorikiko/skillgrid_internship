@@ -9,6 +9,10 @@ body
   header.navbar.navbar-fixed-top
     .container
       nav
+        ul.nav.navbar-nav.navbar-left
+          -if signed_in?
+            li = link_to "Products", products_path
+            li = link_to "Your products", products_path(user: current_user)
         ul.nav.navbar-nav.navbar-right
           li = link_to "Home", root_path
           - if signed_in?

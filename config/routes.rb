@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root 'pages#index'
 
   resources :users
+  resources :products
   resources :sessions, only: [:new, :create, :destroy]
 
   get '/signup' => 'users#new'
