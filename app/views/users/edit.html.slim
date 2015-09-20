@@ -1,15 +1,22 @@
-h1 Update your profile
+.panel.panel-default
+  .panel-heading
+    h4 Update your profile
 
-= gravatar_for @user
+.panel-body
+  h3
+    = gravatar_for @user
+    = @user.name
 
-= simple_form_for(@user) do |f|
+  = simple_form_for(@user) do |f|
 
-  = f.error_notification
+    = f.error_notification
 
-  = f.input :email
-  = f.input :name
-  = f.input :password
-  = f.input :password_confirmation
-  = f.button :submit
+    = f.input :email
+    = f.input :name
+    = f.input :password
+    = f.input :password_confirmation
+
+    .form-actions
+      = f.button :submit
 
 

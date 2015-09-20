@@ -1,15 +1,19 @@
-h1 Sign in
+.panel.panel-default
+  .panel-heading
+    h4 Sign in
+  .panel-body
 
+    = simple_form_for(:session, url: sessions_path) do |f|
 
-= simple_form_for(:session, url: sessions_path) do |f|
+      = f.input :email
 
-  = f.input :email
+      = f.input :password
 
-  = f.input :password
+      = f.submit "Sign in", class: "btn btn-large btn-primary"
 
-  = f.submit "Sign in", class: "btn btn-large btn-primary"
+    br
+    br
 
-br
+    p New user?
 
-p New user?
-= link_to "Sign up now!", signup_path
+    = link_to "Sign up now!", signup_path, class: "btn btn-md btn-primary"

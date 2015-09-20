@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.paginate(page: params[:page])
+    @users = User.paginate(page: params[:page], per_page: 12)
   end
 
   def show
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     if @user.save
       sign_in @user
       flash[:success] = "Welcome!"
-      redirect_back_or user
+      redirect_back_or @user
     else
       render 'new'
     end

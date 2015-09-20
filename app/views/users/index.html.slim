@@ -1,10 +1,12 @@
-h1 All users
+.panel.panel-default
+  .panel-heading
+    h4 All users
+  .panel-body
+    = will_paginate(@users, :renderer => WillPaginate::ActionView::LinkRenderer)
+    ul.users
+      - @users.each do |user|
+        li
+          = gravatar_for user, size: 52
+          = link_to user.name, user
 
-= will_paginate(@users, :renderer => WillPaginate::ActionView::LinkRenderer)
-ul.users
-  - @users.each do |user|
-    li
-      = gravatar_for user, size: 52
-      = link_to user.name, user
-
-= will_paginate(@users, :renderer => WillPaginate::ActionView::LinkRenderer)
+    = will_paginate(@users, :renderer => WillPaginate::ActionView::LinkRenderer)
