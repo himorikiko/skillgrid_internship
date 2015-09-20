@@ -8,14 +8,17 @@ RSpec.describe User, type: :model do
   it { should respond_to(:password_digest) }
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
+  it { should respond_to(:password_confirmation) }
+  it { should respond_to(:remember_token) }
   it { should respond_to(:authenticate) }
-
 
   it { is_expected.to strip_attribute(:name).collapse_spaces }
   it { is_expected.to strip_attribute :email }
   it { is_expected.not_to strip_attribute :password_digest }
   it { is_expected.not_to strip_attribute :password }
   it { is_expected.not_to strip_attribute :password_confirmation }
+
+  it { expect(user.remember_token).not_to be_blank }
 
   describe 'validations' do
     context 'if name not present' do
