@@ -7,25 +7,35 @@ head
   = csrf_meta_tags
 body
   header.navbar.navbar-fixed-top
-    .navbar-inner
-      .container
-        = link_to "app", root_path, id: "logo"
-        nav
-          ul.nav.navbar-nav.navbar-right
-            li = link_to "Home", root_path
-            - if signed_in?
-              li = link_to "Users", '#'
-              li id="fat-menu" class="dropdown"
-                = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' }, role: 'button' do
-                  = 'Account'
-                  span.caret
-                ul.dropdown-menu
-                  li = link_to "Profile", current_user
-                  li = link_to "Settings", '#'
-                  li.divider
-                  li= link_to "Sign out", signout_path, method: "delete"
-            - else
-              li = link_to "Sign in", signin_path
+    .container
+      nav
+        ul.nav.navbar-nav.navbar-right
+          li = link_to "Home", root_path
+          - if signed_in?
+            li = link_to "Users", users_path
+            li.dropdown
+              = link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' }, role: 'button' do
+                = 'Account'
+                span.caret
+              ul.dropdown-menu
+                li = link_to "Profile", current_user
+                li = link_to "Settings", edit_user_path(current_user)
+                li.divider
+                li= link_to "Sign out", signout_path, method: "delete"
+          - else
+            li = link_to "Sign in", signin_path
+    div
+      - flash.each do |name, msg|
+        - errors_keys = ['error', 'alert']
+        = content_tag :div, class: "alert alert-#{ errors_keys.include?(name) ? "danger" : "success" } alert-dismissable", role: "alert"  do
+          button.close type="button" data-dismiss="alert"
+            span aria-hidden="true"
+              | &times;
+            span.sr-only
+              | Close
+          = msg
+  .page-header
+
   = yield
 
 
