@@ -10,31 +10,31 @@ body
     .container
       nav
         ul.nav.navbar-nav.navbar-left
-          -if signed_in?
+          -if user_signed_in?
             li = link_to "Products", products_path
             li = link_to "Your products", products_path(user: current_user)
             li = link_to "Users", users_path
         ul.nav.navbar-nav.navbar-right
           li = link_to "Home", root_path
-          - if signed_in?
+          - if user_signed_in?
             li = link_to "Profile", current_user
             li = link_to "Settings", edit_user_path(current_user)
             li.divider
-            li= link_to "Sign out", signout_path, method: "delete"
+            li= link_to "Sign out", destroy_user_session_path, method: "delete"
           - else
-            li = link_to "Sign in", signin_path
-    div
-      - flash.each do |name, msg|
-        - errors_keys = ['error', 'alert']
-        = content_tag :div, class: "alert alert-#{ errors_keys.include?(name) ? "danger" : "success" } alert-dismissable", role: "alert"  do
-          button.close type="button" data-dismiss="alert"
-            span aria-hidden="true"
-              | &times;
-            span.sr-only
-              | Close
-          = msg
-  .page-header
+            li = link_to "Sign in", new_user_session_path
+      div.layout
+        - flash.each do |name, msg|
+          - errors_keys = ['error', 'alert']
+          = content_tag :div, class: "alert alert-#{ errors_keys.include?(name) ? "danger" : "success" } alert-dismissable", role: "alert"  do
+            button.close type="button" data-dismiss="alert"
+              span aria-hidden="true"
+                | &times;
+              span.sr-only
+                | Close
+            = msg
+      .page-header
 
-  = yield
+      = yield
 
 
