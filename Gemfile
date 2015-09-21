@@ -52,6 +52,12 @@ gem 'kaminari-bootstrap3'
 
 gem 'jquery-turbolinks'
 
+gem 'devise'
+
+gem 'devise-bootstrap-views'
+
+gem 'inherited_resources'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

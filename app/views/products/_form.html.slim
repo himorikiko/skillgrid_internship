@@ -1,0 +1,17 @@
+.panel.panel-default
+  .panel-heading
+    h4 = "#{panel_title}"
+  .panel-body
+    = simple_form_for(@product) do |f|
+
+      = f.error_notification
+
+      = f.input :title
+      = f.input :description
+
+      = f.input :image, as: :file, label: false, hint: f.object.image.present? ? image_tag(f.object.image.url(:thumb)) : content_tag(:span, 'no image yet')
+      = f.input :image_cache, as: :hidden
+
+
+      .form-actions
+        = f.button :submit
