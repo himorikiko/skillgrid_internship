@@ -13,11 +13,14 @@
         td = @product.description
 
       tr
-        th Created by:
-        td = link_to @product.user.name, @product.user
+        th Shop title:
+        td = link_to @product.user.shop_title, @product.user
+
+      tr
+        th Pro?:
+        td = @product.pro
 
       tr
         th Image:
         td = image_tag @product.image.url(:x800).to_s, alt: @product.title, class: 'img-responsive'
-
 

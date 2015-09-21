@@ -25,6 +25,7 @@ body
             li= link_to "Sign out", destroy_user_session_path, method: "delete"
           - else
             li = link_to "Sign in", new_user_session_path
+      .page-header
       div.layout
         - flash.each do |name, msg|
           - errors_keys = ['error', 'alert']
@@ -35,7 +36,6 @@ body
               span.sr-only
                 | Close
             = msg
-      .page-header
 
       = yield
 

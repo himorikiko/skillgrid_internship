@@ -7,8 +7,8 @@ TheRole.configure do |config|
   # layout for Management panel
   config.layout = :the_role_management_panel
 
-  # config.default_user_role          = nil
-  # config.first_user_should_be_admin = false
+  # config.default_user_role          = Role.with_name(:user)
+  config.first_user_should_be_admin = true
   # config.access_denied_method       = :access_denied
 
   # Dependent of Rails::VERSION

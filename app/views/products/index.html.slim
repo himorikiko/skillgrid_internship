@@ -4,9 +4,10 @@
   .panel-body
     = paginate @product, theme: 'bootstrap'
     ul
-      - @product.each do |p|
-        li
-          = image_tag(p.image.url(:thumb).to_s) + (link_to p.title, p)
+      .row
+        - @product.each do |p|
+            .col-md-3 = image_tag(p.image.url(:thumb).to_s) + (link_to p.title, p)
+            .col-md-9 = (link_to 'edit', edit_product_path(p))
 
     = paginate @product, theme: 'bootstrap'
   .panel-footer
