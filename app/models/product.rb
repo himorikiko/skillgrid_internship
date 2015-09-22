@@ -12,9 +12,15 @@ class Product < ActiveRecord::Base
 
   scope :pro, -> { where(pro: true ) }
 
+  before_save: :fill_shop_name
+
 
   def set_pro
     self.pro = true
+  end
+
+  def fill_shop_name
+    self.shop_name = self.user.shop_name
   end
 end
 
