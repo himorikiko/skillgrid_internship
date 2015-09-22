@@ -5,3 +5,16 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Role.create(name: "admin", title: "Role for admin", description: "This user can do anything", the_role: '{"system":{"administrator":true}}')
+Role.create(name: "user", title: "Role for user", description: "This user can do anything", the_role: '{"products":{"index":true,"show":true,"only_pro":true}}')
+Role.create(name: "shop", title: "Role for shop", description: "This user can do anything", the_role: '{"products":{"new":true,"create":true,"show":true,"index":true}}')
+Role.create(name: "administrator", title: "Role for administrator", description: "This user can do anything", the_role: '{"products":{"index":true,"show":true,"edit":true,"update":true,"set_pro":true}}')
+
+# {
+# "admin":{"title":"Role for admin","description":"This user can do anything","role_hash":{"system":{"administrator":true}}}
+# ,"user":{"title":"user","description":"user","role_hash":{"products":{"index":true,"show":true,"only_pro":true}}},
+# "shop":{"title":"shop","description":"shop","role_hash":{"products":{"new":true,"create":true,"show":true,"index":true}}},
+# "administrator":{"title":"administrator","description":"administrator","role_hash":{"products":{"index":true,"show":true,"edit":true,"update":true,"set_pro":true}}},
+# "export_comment":"EXPORT Roles: *admin, user, shop, administrator*"
+# }

@@ -1,24 +1,34 @@
 class User < ActiveRecord::Base
+  include TheRole::Api::User
+
+  mount_uploader :avatar, AvatarUploader
+  mount_uploader :passport_photo, PassportUploader
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  X = 6
+
   devise :database_authenticatable,
          :registerable,
          :recoverable,
          :rememberable,
          :trackable,
-         :validatable, password_length: X..128
-
-  strip_attributes
+         :validatable
 
   paginates_per 12
 
+  strip_attributes
 
-  before_save { self.email = email.downcase }
+  validates :role_id, presence: true
+
+  validates :avatar, presence: true, if: "role == Role.with_name(:shop) || role == Role.with_name(:administrator)"
+
+  validates :password, length: { minimum: 10 },if: "role == Role.with_name(:administrator)"
+  validates :name, :last_name, :passport_photo, :birth_date, presence: true, if: "role == Role.with_name(:administrator)"
+
+  validates :shop_title, presence: true, if: "role == Role.with_name(:shop)"
+  validates :password, length: { minimum: 8 }, if: "role == Role.with_name(:shop)"
+
+  validates :password, length: { minimum: 6 }, if: "role == Role.with_name(:user)"
 
   has_many :products, dependent: :destroy
 
-  def full_name
-    (name.to_s + ' ' +last_name.to_s).strip
-  end
 end

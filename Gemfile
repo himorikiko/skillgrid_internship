@@ -58,6 +58,8 @@ gem 'devise-bootstrap-views'
 
 gem 'inherited_resources'
 
+gem 'the_role', '~> 3.0.0'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
