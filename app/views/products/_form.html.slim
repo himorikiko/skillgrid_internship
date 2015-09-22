@@ -4,14 +4,17 @@
   .panel-body
     = simple_form_for(@product) do |f|
       = f.error_notification
-      = f.input :title, disabled: current_user.has_role?(:products, :set_pro),
-        hint: current_user.has_role?(:products, :set_pro) ? 'You cannot change title.' : ''
-      = f.input :description, disabled: current_user.has_role?(:products, :set_pro),
-        hint: current_user.has_role?(:products, :set_pro) ? 'You cannot change description.' : ''
-      = f.input :pro, as: :boolean, disabled: !current_user.has_role?(:products, :set_pro),
-        hint: !current_user.has_role?(:products, :set_pro) ? 'You cannot set pro.' : ''
-      = f.input :image, as: :file, disabled: current_user.has_role?(:products, :set_pro),
-        hint: current_user.has_role?(:products, :set_pro) ? 'You cannot change title.' : ''
+
+      - could_set_pro = current_user.has_role?(:products, :set_pro)
+
+      = f.input :title, disabled: could_set_pro,
+        hint: could_set_pro ? 'You cannot change title.' : ''
+      = f.input :description, disabled: could_set_pro,
+        hint: could_set_pro ? 'You cannot change description.' : ''
+      - if could_set_pro
+        = f.input :pro, as: :boolean
+      = f.input :image, as: :file, disabled: could_set_pro,
+        hint: could_set_pro ? 'You cannot change title.' : ''
       = f.input :image_cache, as: :hidden
 
 

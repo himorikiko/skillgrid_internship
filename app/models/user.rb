@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   validates :shop_title, presence: true, if: "role == Role.with_name(:shop)"
   validates :password, length: { minimum: 8 }, if: "role == Role.with_name(:shop)"
 
-  validates :password, length: { minimum: 6 }, if: "role == Role.with_name(:user)"
+  validates :password, length: { minimum: 6 }, if: "role == Role.with_name(:guest)"
 
   has_many :products, dependent: :destroy
 
