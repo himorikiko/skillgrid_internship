@@ -60,6 +60,8 @@ gem 'inherited_resources'
 
 gem 'the_role', '~> 3.0.0'
 
+gem 'httparty'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

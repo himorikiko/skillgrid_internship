@@ -31,4 +31,12 @@ class User < ActiveRecord::Base
 
   has_many :products, dependent: :destroy
 
+  def can_buy?
+    if self.email =~ /\.com$/
+      false
+    else
+      true
+    end
+  end
+
 end
