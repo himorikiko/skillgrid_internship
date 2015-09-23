@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :users
   resources :products
 
+  post '/products/:id/buy' => 'products#buy', as: "buy_product"
+
   # get '/signup' => 'users#new'
   # get '/signin' => 'sessions#new'
   # delete '/signout' => 'sessions#destroy'

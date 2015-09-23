@@ -12,7 +12,7 @@ class Product < ActiveRecord::Base
 
   scope :pro, -> { where(pro: true ) }
 
-  before_save: :fill_shop_name
+  before_save :fill_shop_name
 
 
   def set_pro
@@ -20,7 +20,11 @@ class Product < ActiveRecord::Base
   end
 
   def fill_shop_name
-    self.shop_name = self.user.shop_name
+    self.shop_title = self.user.shop_title
+  end
+
+  def sell_able?
+    !(self.shop_title.blank? || self.pro)
   end
 end
 

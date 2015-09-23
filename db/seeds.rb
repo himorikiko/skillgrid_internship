@@ -11,6 +11,7 @@ Role.create(name: "guest", title: "Role for guest", description: "guest", the_ro
 Role.create(name: "shop", title: "Role for shop", description: "shop", the_role: '{"products":{"new":true,"create":true,"show":true,"index":true}}')
 Role.create(name: "administrator", title: "Role for administrator", description: "administrator", the_role: '{"products":{"index":true,"show":true,"edit":true,"update":true,"set_pro":true}}')
 
+# User.create(email: "admin@example.com", password: "12345678", password_confirmation: "12345678")
 # {
 # "admin":{"title":"Role for admin","description":"This user can do anything","role_hash":{"system":{"administrator":true}}}
 # ,"user":{"title":"user","description":"user","role_hash":{"products":{"index":true,"show":true,"only_pro":true}}},
