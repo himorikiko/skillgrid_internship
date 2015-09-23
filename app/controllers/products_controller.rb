@@ -22,13 +22,25 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     if current_user.can_buy?
       if @product.sell_able?
-        photo_url = get_photo
+        begin
+          photo_url = get_photo
+        rescue Timeout::Error
+          flash[:alert] = "Timeout error"
+          redirect_to :back
+          return
+        end
         if photo_url.nil?
           flash[:alert] = "Sorry, _you_ can't buy this product. Try again later"
           AdministratorMailer.buy_error(current_user.email).deliver_later
           redirect_to :back
         else
-          post = get_post
+          begin
+            post = get_post
+          rescue Timeout::Error
+            flash[:alert] = "Sorry, timeout error"
+            redirect_to :back
+            return
+          end
           post_id = post['id']
           AdministratorMailer.successfull_buy(post_id).deliver_later
           UserMailer.successfull_buy(current_user, photo_url).deliver_later
@@ -64,7 +76,7 @@ class ProductsController < ApplicationController
       delay = rand(0..6)
       sleep(delay)
       if delay > 3
-        raise "You're unlucky"
+        raise Timeout::Error
       else
         get = HTTParty.get("http://jsonplaceholder.typicode.com/photos/#{Random.rand(42..4242)}")
         image = JSON.parse(get.body)
@@ -83,7 +95,7 @@ class ProductsController < ApplicationController
         delay = 4
         sleep(delay)
         if delay > 3
-          raise "Admins are unlucky"
+          raise "whoops"
         else
           HTTParty.post("http://jsonplaceholder.typicode.com/todos")
         end
@@ -91,7 +103,7 @@ class ProductsController < ApplicationController
         unless (tries -= 1).zero?
           retry
         else
-          raise "Admins are unlucky"
+          raise Timeout::Error
         end
       end
     end
