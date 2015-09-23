@@ -28,10 +28,11 @@ class ProductsController < ApplicationController
           AdministratorMailer.buy_error(current_user.email).deliver_later
           redirect_to :back
         else
-          post = HTTParty.post("http://jsonplaceholder.typicode.com/todos")
+          post = get_post
           post_id = post['id']
           AdministratorMailer.successfull_buy(post_id).deliver_later
           UserMailer.successfull_buy(current_user, photo_url).deliver_later
+          flash[:notice] = "You successfully buy a product"
           redirect_to(:back)
         end
       else
@@ -60,12 +61,38 @@ class ProductsController < ApplicationController
 
 
     def get_photo
-      get = HTTParty.get("http://jsonplaceholder.typicode.com/photos/#{Random.rand(42..4242)}")
-      image = JSON.parse(get.body)
-      if image['url'].split("/").last.to_i(16) > image['thumbnailUrl'].split("/").last.to_i
-        image['url']
+      delay = rand(0..6)
+      sleep(delay)
+      if delay > 3
+        raise "You're unlucky"
       else
-        nil
+        get = HTTParty.get("http://jsonplaceholder.typicode.com/photos/#{Random.rand(42..4242)}")
+        image = JSON.parse(get.body)
+        if image['url'].split("/").last.to_i(16) > image['thumbnailUrl'].split("/").last.to_i
+          image['url']
+        else
+          nil
+        end
+      end
+    end
+
+    def get_post
+      begin
+        tries ||= 3
+        delay = rand(0..6)
+        delay = 4
+        sleep(delay)
+        if delay > 3
+          raise "Admins are unlucky"
+        else
+          HTTParty.post("http://jsonplaceholder.typicode.com/todos")
+        end
+      rescue => e
+        unless (tries -= 1).zero?
+          retry
+        else
+          raise "Admins are unlucky"
+        end
       end
     end
 
