@@ -20,7 +20,7 @@ class ProductsController < ApplicationController
 
   def buy
     @product = Product.find(params[:id])
-    if current_user.can_buy? && current_user.has_role?(:products, :buy)
+    if current_user.can_buy?
       if @product.sell_able?
         photo_url = get_photo
         if photo_url.nil?
@@ -59,14 +59,14 @@ class ProductsController < ApplicationController
     end
 
 
-  def get_photo
-    get = HTTParty.get("http://jsonplaceholder.typicode.com/photos/#{Random.rand(42..4242)}")
-    image = JSON.parse(get.body)
-    if image['url'].split("/").last.to_i(16) > image['thumbnailUrl'].split("/").last.to_i
-      image['url']
-    else
-      nil
+    def get_photo
+      get = HTTParty.get("http://jsonplaceholder.typicode.com/photos/#{Random.rand(42..4242)}")
+      image = JSON.parse(get.body)
+      if image['url'].split("/").last.to_i(16) > image['thumbnailUrl'].split("/").last.to_i
+        image['url']
+      else
+        nil
+      end
     end
-  end
 
 end

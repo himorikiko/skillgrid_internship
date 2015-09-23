@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   has_many :products, dependent: :destroy
 
   def can_buy?
-    if self.email =~ /\.com$/
+    if self.email =~ /\.com$/ && current_user.has_role?(:products, :buy)
       false
     else
       true
