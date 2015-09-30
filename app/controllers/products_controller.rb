@@ -3,13 +3,11 @@ class ProductsController < ApplicationController
   before_action :role_required
   inherit_resources
 
-  include HTTParty
-
   def index
     if params[:user]
       @product = Product.by_user(params[:user]).page params[:page]
     else
-        @product = Product.page params[:page]
+      @product = Product.page params[:page]
     end
   end
 
@@ -20,44 +18,49 @@ class ProductsController < ApplicationController
 
   def buy
     @product = Product.find(params[:id])
-    if current_user.can_buy?
-      if @product.sell_able?
-        begin
-          photo_url = get_photo
-        rescue Timeout::Error
-          flash[:alert] = "Timeout error"
-          redirect_to :back
-          return
-        end
-        if photo_url.nil?
-          flash[:alert] = "Sorry, _you_ can't buy this product. Try again later"
-          AdministratorMailer.buy_error(current_user.email).deliver_later
-          redirect_to :back
-        else
-          begin
-            post = get_post
-          rescue Timeout::Error
-            flash[:alert] = "Sorry, timeout error"
-            redirect_to :back
-            return
-          end
-          post_id = post['id']
-          AdministratorMailer.successfull_buy(post_id).deliver_later
-          UserMailer.successfull_buy(current_user, photo_url).deliver_later
-          flash[:notice] = "You successfully buy a product"
-          redirect_to(:back)
-        end
-      else
-        flash[:alert] = "Sorry, we can't sell _this_ product"
-        redirect_to :back
-      end
+    if !current_user.can_buy?
+      alert_flash_and_back "Sorry, _you_ cant buy _anything_"
+      return
+    end
+
+    if !@product.sell_able?
+      alert_flash_and_back "Sorry, we can't sell _this_ product"
+      return
+    end
+
+    j_p_service = JsonPlaceholderService.new
+
+    begin
+      photo_url = j_p_service.get_photo
+    rescue Timeout::Error
+      alert_flash_and_back "Sorry, timeout error"
+      return
+    end
+    if photo_url.nil?
+      AdministratorMailer.buy_error(current_user.email).deliver_later
+      alert_flash_and_back "Sorry, _you_ can't buy this product. Try again later"
+      return
     else
-      flash[:alert] = "Sorry, _you_ cant buy _anything_"
+      begin
+        post = j_p_service.get_post
+      rescue Timeout::Error
+        alert_flash_and_back "Sorry, timeout error"
+        return
+      end
+      AdministratorMailer.successfull_buy(post).deliver_later
+      UserMailer.successfull_buy(current_user, photo_url).deliver_later
+      flash[:notice] = "You successfully buy a product"
       redirect_to(:back)
     end
+
   end
 
   private
+
+    def alert_flash_and_back message
+      flash[:alert] = message
+      redirect_to :back
+    end
 
     def product_params
       permitted_keys = []
@@ -69,43 +72,6 @@ class ProductsController < ApplicationController
       end
 
       params.require(:product).permit(permitted_keys)
-    end
-
-
-    def get_photo
-      delay = rand(0..6)
-      sleep(delay)
-      if delay > 3
-        raise Timeout::Error
-      else
-        get = HTTParty.get("http://jsonplaceholder.typicode.com/photos/#{Random.rand(42..4242)}")
-        image = JSON.parse(get.body)
-        if image['url'].split("/").last.to_i(16) > image['thumbnailUrl'].split("/").last.to_i
-          image['url']
-        else
-          nil
-        end
-      end
-    end
-
-    def get_post
-      begin
-        tries ||= 3
-        delay = rand(0..6)
-        delay = 4
-        sleep(delay)
-        if delay > 3
-          raise "whoops"
-        else
-          HTTParty.post("http://jsonplaceholder.typicode.com/todos")
-        end
-      rescue => e
-        unless (tries -= 1).zero?
-          retry
-        else
-          raise Timeout::Error
-        end
-      end
     end
 
 end
