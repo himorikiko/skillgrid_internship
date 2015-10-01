@@ -17,12 +17,13 @@ class JsonPlaceholderService
       if image['url'].split("/").last.to_i(16) > image['thumbnailUrl'].split("/").last.to_i(16)
         image['url']
       else
+        AdministratorMailer.buy_error(current_user.email).deliver_later
         nil
       end
     end
   end
 
-  def get_post
+  def get_post(photo_url)
   begin
     tries ||= NUM_OF_TRIES
     delay = rand(MIN_DELAY..MAX_DELAY)
@@ -31,7 +32,11 @@ class JsonPlaceholderService
       raise Timeout::Error
     else
       post_responce = post_url("http://jsonplaceholder.typicode.com/todos")
-      post_responce['id']
+      post = post_responce['id']
+
+      AdministratorMailer.successfull_buy(post).deliver_later
+      UserMailer.successfull_buy(current_user, photo_url).deliver_later
+
     end
   rescue => e
     unless (tries -= 1).zero?

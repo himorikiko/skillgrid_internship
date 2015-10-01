@@ -19,40 +19,28 @@ class ProductsController < ApplicationController
   def buy
     @product = Product.find(params[:id])
     if !current_user.can_buy?
-      alert_flash_and_back "Sorry, _you_ cant buy _anything_"
-      return
-    end
-
-    if !@product.sell_able?
-      alert_flash_and_back "Sorry, we can't sell _this_ product"
-      return
-    end
-
-    j_p_service = JsonPlaceholderService.new
-
-    begin
-      photo_url = j_p_service.get_photo
-    rescue Timeout::Error
-      alert_flash_and_back "Sorry, timeout error"
-      return
-    end
-    if photo_url.nil?
-      AdministratorMailer.buy_error(current_user.email).deliver_later
-      alert_flash_and_back "Sorry, _you_ can't buy this product. Try again later"
-      return
+      flash[:alert] = "Sorry, _you_ cant buy _anything_"
     else
-      begin
-        post = j_p_service.get_post
-      rescue Timeout::Error
-        alert_flash_and_back "Sorry, timeout error"
-        return
-      end
-      AdministratorMailer.successfull_buy(post).deliver_later
-      UserMailer.successfull_buy(current_user, photo_url).deliver_later
-      flash[:notice] = "You successfully buy a product"
-      redirect_to(:back)
-    end
+      if !@product.sell_able?
+        flash[:alert] = "Sorry, we can't sell _this_ product"
+      else
 
+        j_p_service = JsonPlaceholderService.new
+        photo_url = j_p_service.get_photo
+        if photo_url.nil?
+          flash[:alert] =  "Sorry, _you_ can't buy this product. Try again later"
+        else
+          post = j_p_service.get_post(photo_url)
+
+          flash[:notice] = "You successfully buy a product"
+          redirect_to(:back)
+        end
+      end
+    end
+    redirect_to :back
+  rescue Timeout::Error
+    flash[:alert] = "Sorry, timeout error"
+    redirect_to :back
   end
 
   private
