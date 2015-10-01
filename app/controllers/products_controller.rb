@@ -18,25 +18,16 @@ class ProductsController < ApplicationController
 
   def buy
     @product = Product.find(params[:id])
-    if !current_user.can_buy?
-      flash[:alert] = "Sorry, _you_ cant buy _anything_"
+    return if !can_buy?
+
+    photo_url = JsonPlaceholderService.get_photo(current_user)
+    if photo_url.nil?
+      flash[:alert] =  "Sorry, _you_ can't buy this product. Try again later"
     else
-      if !@product.sell_able?
-        flash[:alert] = "Sorry, we can't sell _this_ product"
-      else
-
-        j_p_service = JsonPlaceholderService.new
-        photo_url = j_p_service.get_photo
-        if photo_url.nil?
-          flash[:alert] =  "Sorry, _you_ can't buy this product. Try again later"
-        else
-          post = j_p_service.get_post(photo_url)
-
-          flash[:notice] = "You successfully buy a product"
-          redirect_to(:back)
-        end
-      end
+      post = JsonPlaceholderService.get_post(current_user,photo_url)
+      flash[:notice] = "You successfully buy a product"
     end
+
     redirect_to :back
   rescue Timeout::Error
     flash[:alert] = "Sorry, timeout error"
@@ -45,9 +36,18 @@ class ProductsController < ApplicationController
 
   private
 
-    def alert_flash_and_back message
-      flash[:alert] = message
-      redirect_to :back
+    def can_buy?
+      if !current_user.can_buy?
+        flash[:alert] = "Sorry, _you_ cant buy _anything_"
+        false
+      else
+        if !@product.sell_able?
+          flash[:alert] = "Sorry, we can't sell _this_ product"
+          false
+        else
+          true
+        end
+      end
     end
 
     def product_params
