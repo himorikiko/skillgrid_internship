@@ -30,20 +30,6 @@ class ProductsController < ApplicationController
 
   private
 
-    def can_buy?
-      if !current_user.can_buy?
-        flash[:alert] = "Sorry, _you_ cant buy _anything_"
-        false
-      else
-        if !@product.sell_able?
-          flash[:alert] = "Sorry, we can't sell _this_ product"
-          false
-        else
-          true
-        end
-      end
-    end
-
     def product_params
       permitted_keys = []
 
