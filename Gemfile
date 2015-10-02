@@ -60,6 +60,8 @@ gem 'httparty'
 
 gem 'virtus'
 
+gem 'pry-rails'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

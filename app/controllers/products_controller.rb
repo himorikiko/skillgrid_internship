@@ -18,20 +18,14 @@ class ProductsController < ApplicationController
 
   def buy
     @product = Product.find(params[:id])
-    return if !can_buy?
 
-    photo_url = JsonPlaceholderService.get_photo(current_user)
-    if photo_url.nil?
-      flash[:alert] =  "Sorry, _you_ can't buy this product. Try again later"
-    else
-      post = JsonPlaceholderService.get_post(current_user,photo_url)
+    response = BuyingService.new.buy(current_user, @product)
+    if response.success?
       flash[:notice] = "You successfully buy a product"
+    else
+      flash[:alert] = response.errors.map {|e| e}.join('. ')
     end
-
-    redirect_to :back
-  rescue Timeout::Error
-    flash[:alert] = "Sorry, timeout error"
-    redirect_to :back
+    redirect_to products_url
   end
 
   private
