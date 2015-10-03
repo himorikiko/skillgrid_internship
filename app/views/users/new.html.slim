@@ -1,6 +1,29 @@
-.panel.panel-default
-  .panel-heading
-    h4 Sign up
-  .panel-body
-    = render 'form', user: @user
+h2 Sign up
 
+= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+  = f.error_notification
+
+  .form-input
+    .row
+      .col-md-6
+        = f.input :name
+        = f.input :last_name
+        = f.input :birth_date, as: :string, start_year: Date.today.year - 90,
+                                  end_year: Date.today.year - 12,
+                                  order: [:day, :month, :year],
+                                  include_blank: true, input_html: {type: :date}
+        = f.input :shop_title
+        = f.input :avatar, as: :file
+        = f.hidden_field :avatar_cache
+        = f.input :passport_photo, as: :file
+        = f.hidden_field :passport_photo_cache
+      .col-md-6
+        = f.input :email, required: true, autofocus: true
+        = f.input :password, required: true
+        = f.input :password_confirmation, required: true
+        = f.input :role_id, collection: Role.all - [Role.with_name("admin")], include_blank: true
+
+        .form-actions.pull-right
+          = f.button :submit, "Sign up"
+
+          = render "devise/shared/links"

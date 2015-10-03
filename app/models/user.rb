@@ -17,17 +17,17 @@ class User < ActiveRecord::Base
 
   strip_attributes
 
-  validates :role_id, presence: true
+  # validates :role_id, presence: true
 
-  validates :avatar, presence: true, if: "role == Role.with_name(:shop) || role == Role.with_name(:administrator)"
+  # validates :avatar, presence: true, if: "role == Role.with_name(:shop) || role == Role.with_name(:administrator)"
 
-  validates :password, length: { minimum: 10 },if: "role == Role.with_name(:administrator)"
-  validates :name, :last_name, :passport_photo, :birth_date, presence: true, if: "role == Role.with_name(:administrator)"
+  # validates :password, length: { minimum: 10 },if: "role == Role.with_name(:administrator)"
+  # validates :name, :last_name, :passport_photo, :birth_date, presence: true, if: "role == Role.with_name(:administrator)"
 
-  validates :shop_title, presence: true, if: "role == Role.with_name(:shop)"
-  validates :password, length: { minimum: 8 }, if: "role == Role.with_name(:shop)"
+  # validates :shop_title, presence: true, if: "role == Role.with_name(:shop)"
+  # validates :password, length: { minimum: 8 }, if: "role == Role.with_name(:shop)"
 
-  validates :password, length: { minimum: 6 }, if: "role == Role.with_name(:guest)"
+  # validates :password, length: { minimum: 6 }, if: "role == Role.with_name(:guest)"
 
   has_many :products, dependent: :destroy
 

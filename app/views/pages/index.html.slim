@@ -6,7 +6,13 @@
   -unless user_signed_in?
     h2 After you sign-in/sign-up you will be able to add some products.
 
-    = link_to "Sign up now!", new_user_registration_path, class: "btn btn-lg btn-primary"
+    .row
+      .col-md-4
+        = link_to "Sign up as guest now!", new_user_registration_path(role: 'guest'), class: "btn btn-lg btn-primary"
+      .col-md-4
+        = link_to "Sign up as shop now!", new_user_registration_path(role: 'shop'), class: "btn btn-lg btn-primary"
+      .col-md-4
+        = link_to "Sign up as administrator now!", new_user_registration_path(role: 'administrator'), class: "btn btn-lg btn-primary"
   -else
     br
     h2 Now you can add products

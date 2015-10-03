@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
 
-  devise_for :users
+  devise_for :users, :controllers => {:registrations => "registrations"}
+
+  # devise_scope :user do
+  #   get "/user/new_user" => 'registrations#new_user'
+  #   get "/user/new_shop" => 'registrations#new_shop'
+  #   get "/user/new_administrator" => 'registrations#new_administrator'
+  # end
+
   root 'pages#index'
 
   resources :users
@@ -8,6 +15,7 @@ Rails.application.routes.draw do
 
   post '/products/:id/buy' => 'products#buy', as: "buy_product"
 
+  TheRoleManagementPanel::Routes.mixin(self)
   # get '/signup' => 'users#new'
   # get '/signin' => 'sessions#new'
   # delete '/signout' => 'sessions#destroy'
@@ -65,5 +73,4 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-  TheRoleManagementPanel::Routes.mixin(self)
 end

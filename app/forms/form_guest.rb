@@ -1,8 +1,9 @@
-class FormUser
+class FormGuest
   include ActiveModel::Model
   include Virtus.model
 
-  attr_accessor :role_id
+  # attr_accessor :role_id
+  attr_accessor :authenticatable_salt
 
   attribute :email, String
   attribute :password, String
@@ -18,17 +19,6 @@ class FormUser
   end
 
   def save
-    if valid?
-      persist!
-      true
-    else
-      false
-    end
-  end
-
-  private
-
-  def persist!
-    @user = User.create!(email: email, password: password, password_confirmation: password_confirmation)
+    valid?
   end
 end
