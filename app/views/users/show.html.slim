@@ -1,0 +1,13 @@
+.panel.panel-default
+  .panel-heading
+    h4 User
+  .panel-body
+    table.table.table-striped.table-hover
+
+      tr
+        th Name:
+        td = @user.name
+
+      tr
+        th Avatar:
+        td = gravatar_for @user

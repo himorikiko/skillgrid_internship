@@ -1,0 +1,13 @@
+.panel.panel-default
+  .panel-heading
+    h4 Update your profile
+
+.panel-body
+  h3
+    = gravatar_for @user
+    = @user.name
+
+  = render 'form', user: @user
+
+
+

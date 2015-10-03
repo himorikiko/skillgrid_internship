@@ -1,0 +1,12 @@
+.panel.panel-default
+  .panel-heading
+    h4 All users
+  .panel-body
+    = paginate @users, theme: 'bootstrap'
+    ul
+      - @users.each do |user|
+        li.product-list
+          = gravatar_for user, size: 52
+          = link_to user.name, user
+
+    = paginate @users, theme: 'bootstrap'

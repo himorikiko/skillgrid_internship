@@ -1,0 +1,42 @@
+doctype html
+html
+head
+  title SkillgridInternship
+  = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+  = javascript_include_tag 'application', 'data-turbolinks-track' => false
+  = csrf_meta_tags
+body
+  header.navbar.navbar-fixed-top
+    .container
+      nav
+        ul.nav.navbar-nav.navbar-left
+          -if user_signed_in?
+            li = link_to "Products", products_path
+            li = link_to "Your products", products_path(user: current_user)
+            li = link_to "Users", users_path
+            - if current_user.admin? || current_user.moderator?(:roles)
+              li = link_to 'TheRole Manage Panel',  admin_roles_path
+        ul.nav.navbar-nav.navbar-right
+          li = link_to "Home", root_path
+          - if user_signed_in?
+            li = link_to "Profile", current_user
+            li = link_to "Settings", edit_user_path(current_user)
+            li.divider
+            li= link_to "Sign out", destroy_user_session_path, method: "delete"
+          - else
+            li = link_to "Sign in", new_user_session_path
+      .page-header
+      div.layout
+        - flash.each do |name, msg|
+          - errors_keys = ['error', 'alert']
+          = content_tag :div, class: "alert alert-#{ errors_keys.include?(name) ? "danger" : "success" } alert-dismissable", role: "alert"  do
+            button.close type="button" data-dismiss="alert"
+              span aria-hidden="true"
+                | &times;
+              span.sr-only
+                | Close
+            = msg
+
+      = yield
+
+

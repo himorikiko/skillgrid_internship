@@ -1,0 +1,26 @@
+.panel.panel-default
+  .panel-heading
+    h4 Product
+  .panel-body
+    table.table.table-striped.table-hover
+
+      tr
+        th Title:
+        td = @product.title
+
+      tr
+        th Description:
+        td = @product.description
+
+      tr
+        th Shop title:
+        td = @product.shop_title
+
+      tr
+        th Pro?:
+        td = @product.pro
+
+      tr
+        th Image:
+        td = image_tag @product.image.url(:x800).to_s, alt: @product.title, class: 'img-responsive'
+

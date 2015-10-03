@@ -1,4 +1,24 @@
 Rails.application.routes.draw do
+
+  devise_for :users, :controllers => {:registrations => "registrations"}
+
+  # devise_scope :user do
+  #   get "/user/new_user" => 'registrations#new_user'
+  #   get "/user/new_shop" => 'registrations#new_shop'
+  #   get "/user/new_administrator" => 'registrations#new_administrator'
+  # end
+
+  root 'pages#index'
+
+  resources :users
+  resources :products
+
+  post '/products/:id/buy' => 'products#buy', as: "buy_product"
+
+  TheRoleManagementPanel::Routes.mixin(self)
+  # get '/signup' => 'users#new'
+  # get '/signin' => 'sessions#new'
+  # delete '/signout' => 'sessions#destroy'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

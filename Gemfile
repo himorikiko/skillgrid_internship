@@ -3,8 +3,8 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# Use postgresql as the database for Active Record
+gem 'pg'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -18,10 +18,6 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
-# bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
@@ -32,13 +28,39 @@ gem 'slim-rails'
 # Strip trailing whitespaces
 gem "strip_attributes"
 
-gem 'will_paginate', '3.0.4'
+# Forms made easy for Rails
+gem 'simple_form'
 
 gem 'bootstrap-sass'
 
 gem 'faker'
 
-gem 'bootstrap-will_paginate', '0.0.9'
+gem 'carrierwave'
+
+gem 'mini_magick'
+
+# Protection from image bombs
+gem 'carrierwave-bombshelter'
+
+gem 'kaminari'
+
+gem 'kaminari-bootstrap3'
+
+gem 'jquery-turbolinks'
+
+gem 'devise'
+
+gem 'devise-bootstrap-views'
+
+gem 'inherited_resources'
+
+gem 'the_role', '~> 3.0.0'
+
+gem 'httparty'
+
+gem 'virtus'
+
+gem 'pry-rails'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
@@ -57,6 +79,17 @@ group :development, :test do
   gem 'guard-rspec'
 
   gem 'factory_girl_rails'
+
+  gem 'capybara'
+
+  # headless webdriver with js support
+  gem 'poltergeist'
+
+  # webdriver with js support
+  gem 'selenium-webdriver'
+
+  # easy installation and use of chromedriver, the Chromium project's selenium webdriver adapter
+  gem "chromedriver-helper"
 end
 
 group :development do

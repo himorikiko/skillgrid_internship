@@ -1,0 +1,23 @@
+.panel.panel-default
+  .panel-heading
+    h4 All products
+  .panel-body
+    = paginate @product, theme: 'bootstrap'
+    ul
+      .row
+        - @product.each do |p|
+            .col-md-3 = image_tag(p.image.url(:thumb).to_s) + (link_to p.title, p)
+            .col-md-3 = p.shop_title
+            .col-md-3
+              - if current_user.has_role?(:products, :edit)
+                = (link_to 'edit', edit_product_path(p))
+            .col-md-2
+              - if current_user.has_role?(:products, :buy)
+                = link_to 'buy', buy_product_path(p), method: :post, class: "btn btn-sm btn-primary"
+            .col-md-1
+              = p.pro
+            br
+
+    = paginate @product, theme: 'bootstrap'
+  .panel-footer
+    = link_to "New", new_product_path, class: "btn btn-lg btn-primary"
